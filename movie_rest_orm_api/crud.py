@@ -5,6 +5,7 @@ manage CRUD and adapt model data from db to schema data to api rest
 
 from typing import Optional
 from sqlalchemy.orm import Session
+import sqlalchemy as alch
 
 import models, schemas
 
@@ -27,4 +28,9 @@ def get_star(db: Session, star_id: int):
 
 def get_stars(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Star).offset(skip).limit(limit).all()
+
+def get_stars_by_birthyear(db: Session, year: int):
+    return db.query(models.Star).filter(alch.extract('year', models.Star.birthdate) == year) \
+            .order_by(models.Star.name)  \
+            .all()
 

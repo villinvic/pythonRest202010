@@ -48,3 +48,9 @@ def read_star(star_id: int, db: Session = Depends(get_db)):
     if db_star is None:
         raise HTTPException(status_code=404, detail="Star to read not found")
     return db_star
+
+@app.get("/stars/by_birthyear/{year}", response_model=List[schemas.Star])
+def read_stars_by_birthyear(year: int, db: Session = Depends(get_db)):
+    # read items from database
+    stars = crud.get_stars_by_birthyear(db=db, year=year)
+    return stars
