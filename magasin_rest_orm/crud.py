@@ -11,6 +11,7 @@ import models, schemas
 
 def get_item(db: Session, item_id: int):
     # read from the database (get method read from cache)
+    # return object read or None if not found
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
