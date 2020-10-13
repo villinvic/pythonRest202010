@@ -27,7 +27,7 @@ create table movies (
 create table play(
 	id_movie integer not null,
 	id_actor integer not null,
-	rolem varchar(100),
+	role varchar(100),
 	constraint pk_play primary key(id_movie, id_actor),
 	constraint fk_play_actor foreign key (id_actor) 
 			references stars(id),
