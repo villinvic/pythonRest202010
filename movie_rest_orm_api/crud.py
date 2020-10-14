@@ -109,3 +109,16 @@ def get_stars_by_birthyear(db: Session, year: int):
 def get_stars_count(db: Session):
     return db.query(models.Star).count()
 
+def get_star_director_movie(db: Session, movie_id: int):
+    db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id)  \
+        .join(models.Movie.director).first()
+    if db_movie is not None:
+        return db_movie.director
+    else:
+        return None
+    
+def get_star_director_movie_by_title(db: Session, title: str):
+    db_movies = db.query(models.Movie).filter(models.Movie.title.like(f'%{title}%')) \
+        .join(models.Movie.director)  
+    return [ db_movie.director for db_movie in db_movies ]
+

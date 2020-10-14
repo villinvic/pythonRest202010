@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Set
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -114,3 +114,12 @@ def read_stars_by_birthyear(year: int, db: Session = Depends(get_db)):
 @app.get("/stars/count")
 def read_stars_count(db: Session = Depends(get_db)):
     return crud.get_stars_count(db=db)
+
+@app.get("/stars/by_movie_directed/{movie_id}", response_model=Optional[schemas.Star])
+def read_stars_by_movie_directed_id(movie_id: int, db: Session = Depends(get_db)):
+    return crud.get_star_director_movie(db=db, movie_id=movie_id)
+    # return None if movie has no director (normal) or if movie doesn't exist (error) 
+    
+@app.get("/stars/by_movie_directed_title/", response_model=List[schemas.Star])
+def read_stars_by_movie_directed_title(t: str, db: Session = Depends(get_db)):
+    return crud.get_star_director_movie_by_title(db=db, title=t)    
