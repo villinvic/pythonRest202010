@@ -12,6 +12,7 @@ models.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
+
 logger = logging.getLogger("uvicorn")
 fastapi_logger.handlers = logger.handlers
 fastapi_logger.setLevel(logger.level)

@@ -14,7 +14,7 @@ class Movie(Base):
     year = Column(SmallInteger, nullable=False)
     duration = Column(SmallInteger, nullable=True)
     # Many to one relationship : director
-    id_director = Column(Integer, ForeignKey('stars.id'))
+    id_director = Column(Integer, ForeignKey('stars.id'), nullable=True)
     director = relationship('Star')
 
 
