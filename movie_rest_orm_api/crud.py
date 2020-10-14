@@ -14,9 +14,10 @@ def get_movie(db: Session, movie_id: int):
     # read from the database (get method read from cache)
     # return object read or None if not found
     db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id).first()
-    logger.error("Movie retrieved from DB: {} ; director: {}".format( 
-              db_movie.title, 
+    logger.error(f"Movie retrieved from DB: {db_movie.title}")
+    logger.error("director: {}".format( 
               db_movie.director.name if db_movie.director is not None else "no director"))
+    logger.error(f"actors: {db_movie.actors}")
     return db_movie;
 
 def get_movies(db: Session, skip: int = 0, limit: int = 100):
