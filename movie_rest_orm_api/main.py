@@ -1,6 +1,8 @@
 from typing import List, Optional
+import logging
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.logger import logger as fastapi_logger
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
@@ -8,7 +10,12 @@ from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
+
 app = FastAPI()
+logger = logging.getLogger("uvicorn")
+fastapi_logger.handlers = logger.handlers
+fastapi_logger.setLevel(logger.level)
+logger.error("API Started")
 
 
 # Dependency

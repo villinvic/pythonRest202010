@@ -6,14 +6,18 @@ manage CRUD and adapt model data from db to schema data to api rest
 from typing import Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, extract, between
-
+from fastapi.logger import logger
 import models, schemas
 
 # CRUD for Movie objects
 def get_movie(db: Session, movie_id: int):
     # read from the database (get method read from cache)
     # return object read or None if not found
-    return db.query(models.Movie).filter(models.Movie.id == movie_id).first()
+    db_movie = db.query(models.Movie).filter(models.Movie.id == movie_id).first()
+    logger.error("Movie retrieved from DB", 
+              db_movie.title, 
+              db_movie.director.name if db_movie.director is not None else "no director")
+    return db_movie;
 
 def get_movies(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Movie).offset(skip).limit(limit).all()
