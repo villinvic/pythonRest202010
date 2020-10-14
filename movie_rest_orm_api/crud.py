@@ -69,6 +69,11 @@ def get_movies_count(db: Session):
 def get_movies_count_year(db: Session, year: int):
     return _get_movies_by_predicate(models.Movie.year == year).count()
 
+def get_movies_by_director_endname(db: Session, endname: str):
+    return db.query(models.Movie).join(models.Movie.director)      \
+            .filter(models.Star.name.like(f'%{endname}')) \
+            .order_by(desc(models.Movie.year))  \
+            .all()
 
 # CRUD for Star objects
 def _get_stars_by_predicate(*predicate, db: Session):
