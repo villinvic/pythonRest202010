@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 # SQLALCHEMY_DATABASE_URL = "postgresql://movie:password@localhost/dbmovie"
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://movie:password@localhost/dbmovie"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://villinvict:0001@localhost/dbmovie"
 
 engine = create_engine(
 #    SQLALCHEMY_DATABASE_URL
