@@ -3,7 +3,7 @@ file crud.py
 manage CRUD and adapt model data from db to schema data to api rest
 """
 
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, extract, between
 from fastapi.logger import logger
@@ -81,6 +81,7 @@ def get_movies_by_actor_endname(db: Session, endname: str):
             .filter(models.Star.name.like(f'%{endname}'))   \
             .order_by(desc(models.Movie.year))              \
             .all()
+    
 
 # CRUD association
 
@@ -96,6 +97,39 @@ def update_movie_director(db: Session, movie_id: int, director_id: int):
     # return updated object
     return db_movie
 
+
+
+def add_movie_actor(db: Session, mid:int, sid:int):
+    db_movie = get_movie(db=db, movie_id=mid)
+    db_star =  get_star(db=db, star_id=sid)
+    if db_movie is None or db_star is None:
+        return None
+    db_movie.actors.append(db_star)
+    db.commit()
+    return db_movie
+
+def add_movie_actors(db: Session, mid:int, sids:List[int]):
+    db_movie = get_movie(db=db, movie_id=mid)
+    db_stars =  get_stars_from_id_list(db=db, ids=sids)
+    if db_movie is None or not db_stars:
+        return None
+    db_movie.actors.extend(db_stars)
+    db.commit()
+    return db_movie
+
+
+# Movie creation
+
+def create_movie(db: Session, movie:schemas.MovieCreate):
+    db_movie = models.Movie(**movie.dict())
+    db.add(db_movie)
+    db.commit()
+    db.refresh(db_movie)
+    return db_movie
+
+
+
+
 # CRUD for Star objects
 def _get_stars_by_predicate(*predicate, db: Session):
     """ partial request to apply one or more predicate(s) to model Star"""
@@ -108,6 +142,11 @@ def get_star(db: Session, star_id: int):
     return db.query(models.Star).filter(models.Star.id == star_id).first()
     #return db.query(models.Star).get(1)
     #return schemas.Star(id=1, name="Fred")
+
+def get_stars_from_id_list(db:Session, ids: List[int]):
+    return db.query(models.Star)   \
+            .filter( models.Star.id.in_(ids)) \
+            .all()
 
 def get_stars(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Star).offset(skip).limit(limit).all()
