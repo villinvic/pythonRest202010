@@ -6,6 +6,21 @@ from datetime import date
 
 from pydantic import BaseModel
 
+# common Base Class for Stars (abstract class)
+class StarBase(BaseModel):
+    name: str
+    birthdate: Optional[date]
+
+# item witout id, only for creation purpose
+class StarCreate(StarBase):
+    pass
+
+# item from database with id
+class Star(StarBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 # common Base Class for Movies (abstract class)
 class MovieBase(BaseModel):
@@ -23,20 +38,8 @@ class Movie(MovieBase):
 
     class Config:
         orm_mode = True
+
+# movies from database with director
+class MovieDetail(Movie):
+    director: Optional[Star] = None
         
-# common Base Class for Stars (abstract class)
-class StarBase(BaseModel):
-    name: str
-    birthdate: Optional[date]
-
-# item witout id, only for creation purpose
-class StarCreate(StarBase):
-    pass
-
-# item from database with id
-class Star(StarBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-

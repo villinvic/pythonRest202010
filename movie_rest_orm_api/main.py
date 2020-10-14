@@ -35,7 +35,7 @@ def read_movies(skip: Optional[int] = 0, limit: Optional[int] = 100, db: Session
     # return them as json
     return movies
 
-@app.get("/movies/by_id/{movie_id}", response_model=schemas.Movie)
+@app.get("/movies/by_id/{movie_id}", response_model=schemas.MovieDetail)
 def read_movie(movie_id: int, db: Session = Depends(get_db)):
     db_movie = crud.get_movie(db, movie_id=movie_id)
     if db_movie is None:
