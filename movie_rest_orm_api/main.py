@@ -57,6 +57,16 @@ def read_movies_by_range_year(ymin: Optional[int], ymax: Optional[int], db: Sess
 def read_movies_by_title_year(t: str, y: int, db: Session = Depends(get_db)):
     return crud.get_movies_by_title_year(db=db, title=t, year=y)
 
+@app.get("/movies/count")
+def read_movies_count(db: Session = Depends(get_db)):
+    return crud.get_movies_count(db=db)
+
+@app.get("/movies/count/{year}")
+def read_movies_count_year(year:int, db: Session = Depends(get_db)):
+    return crud.get_movies_count_year(db=db, year=year)
+
+# --- API Rest for Stars ---
+    
 @app.get("/stars", response_model=List[schemas.Star])
 def read_stars(skip: Optional[int] = 0, limit: Optional[int] = 100, db: Session = Depends(get_db)):
     # read items from database
@@ -88,3 +98,7 @@ def read_stars_by_birthyear(year: int, db: Session = Depends(get_db)):
     # read items from database
     stars = crud.get_stars_by_birthyear(db=db, year=year)
     return stars
+
+@app.get("/stars/count")
+def read_stars_count(db: Session = Depends(get_db)):
+    return crud.get_stars_count(db=db)

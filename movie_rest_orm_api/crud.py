@@ -59,10 +59,10 @@ def get_movies_by_title_year(db: Session, title: str, year: int):
             .order_by(models.Movie.year, models.Movie.title)    \
             .all()
 
-def get_nb_movies(db: Session):
+def get_movies_count(db: Session):
     return db.query(models.Movie).count()
 
-def get_nb_movies_by_year(db: Session, year: int):
+def get_movies_count_year(db: Session, year: int):
     return _get_movies_by_predicate(models.Movie.year == year).count()
 
 
@@ -96,4 +96,7 @@ def get_stars_by_birthyear(db: Session, year: int):
     return _get_stars_by_predicate(extract('year', models.Star.birthdate) == year, db=db) \
             .order_by(models.Star.name)  \
             .all()
+
+def get_stars_count(db: Session):
+    return db.query(models.Star).count()
 
