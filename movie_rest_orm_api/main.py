@@ -28,9 +28,10 @@ def get_db():
         db.close()
 
 
-@app.post("/movies/")
+@app.post("/movies/", response_model=schemas.Movie)
 def create_movie(movie: schemas.MovieCreate, db: Session = Depends(get_db)):
-    return False
+    # TODO: complete code here
+    return None
 
 @app.put("/movies/director/", response_model=schemas.MovieDetail)
 def update_movie_director(mid: int, sid: int, db: Session = Depends(get_db)):
@@ -45,7 +46,8 @@ def add_movie_actor(mid: int, sid: int, db: Session = Depends(get_db)):
         mid (query param): movie id
         sid (query param): star id to add in movie.actors
     """
-    pass
+    # TODO: complete code here
+    return None
 
 @app.put("/movies/actors/", response_model=schemas.MovieDetail)
 def update_movie_actors(mid: int, sids: List[int], db: Session = Depends(get_db)):
@@ -53,7 +55,8 @@ def update_movie_actors(mid: int, sids: List[int], db: Session = Depends(get_db)
         mid (query param): movie id
         sids (body param): list of star id to replace movie.actors
     """
-    pass
+    # TODO: complete code here
+    return None
 
 @app.get("/movies/", response_model=List[schemas.Movie])
 def read_movies(skip: Optional[int] = 0, limit: Optional[int] = 100, db: Session = Depends(get_db)):

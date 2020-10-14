@@ -96,7 +96,6 @@ def update_movie_director(db: Session, movie_id: int, director_id: int):
     # return updated object
     return db_movie
 
-
 # CRUD for Star objects
 def _get_stars_by_predicate(*predicate, db: Session):
     """ partial request to apply one or more predicate(s) to model Star"""
