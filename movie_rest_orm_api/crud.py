@@ -76,6 +76,12 @@ def get_movies_by_director_endname(db: Session, endname: str):
             .order_by(desc(models.Movie.year))  \
             .all()
 
+def get_movies_by_actor_endname(db: Session, endname: str):
+    return db.query(models.Movie).join(models.Movie.actors) \
+            .filter(models.Star.name.like(f'%{endname}'))   \
+            .order_by(desc(models.Movie.year))              \
+            .all()
+
 # CRUD for Star objects
 def _get_stars_by_predicate(*predicate, db: Session):
     """ partial request to apply one or more predicate(s) to model Star"""

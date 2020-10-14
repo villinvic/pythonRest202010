@@ -77,6 +77,10 @@ def read_movies_count_year(year:int, db: Session = Depends(get_db)):
 def read_movies_by_director(n: str, db: Session = Depends(get_db)):
     return crud.get_movies_by_director_endname(db=db, endname=n)
 
+@app.get("/movies/by_actor", response_model=List[schemas.Movie])
+def read_movies_by_actor(n: str, db: Session = Depends(get_db)):
+    return crud.get_movies_by_actor_endname(db=db, endname=n)
+
 # --- API Rest for Stars ---
     
 @app.get("/stars", response_model=List[schemas.Star])

@@ -1,7 +1,7 @@
 """
 schema.py : model to be converted in json by fastapi
 """
-from typing import Optional
+from typing import Optional, List
 from datetime import date
 
 from pydantic import BaseModel
@@ -42,4 +42,10 @@ class Movie(MovieBase):
 # movies from database with director
 class MovieDetail(Movie):
     director: Optional[Star] = None
+    actors: List[Star] = []
+    
+    
+    
+    
+    
         
