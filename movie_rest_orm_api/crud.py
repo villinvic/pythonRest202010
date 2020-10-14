@@ -82,6 +82,21 @@ def get_movies_by_actor_endname(db: Session, endname: str):
             .order_by(desc(models.Movie.year))              \
             .all()
 
+# CRUD association
+
+def update_movie_director(db: Session, movie_id: int, director_id: int):
+    db_movie = get_movie(db=db, movie_id=movie_id)
+    db_star =  get_star(db=db, star_id=director_id)
+    if db_movie is None or db_star is None:
+        return None
+    # update object association
+    db_movie.director = db_star
+    # commit transaction : update SQL
+    db.commit()
+    # return updated object
+    return db_movie
+
+
 # CRUD for Star objects
 def _get_stars_by_predicate(*predicate, db: Session):
     """ partial request to apply one or more predicate(s) to model Star"""

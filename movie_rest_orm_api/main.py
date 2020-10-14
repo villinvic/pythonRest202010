@@ -28,6 +28,33 @@ def get_db():
         db.close()
 
 
+@app.post("/movies/")
+def create_movie(movie: schemas.MovieCreate, db: Session = Depends(get_db)):
+    return False
+
+@app.put("/movies/director/", response_model=schemas.MovieDetail)
+def update_movie_director(mid: int, sid: int, db: Session = Depends(get_db)):
+    db_movie = crud.update_movie_director(db=db, movie_id=mid, director_id=sid)
+    if db_movie is None:
+        raise HTTPException(status_code=404, detail="Movie or Star not found")
+    return db_movie
+
+@app.post("/movies/actor/", response_model=schemas.MovieDetail)
+def add_movie_actor(mid: int, sid: int, db: Session = Depends(get_db)):
+    """ add one actor to a movie
+        mid (query param): movie id
+        sid (query param): star id to add in movie.actors
+    """
+    pass
+
+@app.put("/movies/actors/", response_model=schemas.MovieDetail)
+def update_movie_actors(mid: int, sids: List[int], db: Session = Depends(get_db)):
+    """ replace actors from a movie
+        mid (query param): movie id
+        sids (body param): list of star id to replace movie.actors
+    """
+    pass
+
 @app.get("/movies/", response_model=List[schemas.Movie])
 def read_movies(skip: Optional[int] = 0, limit: Optional[int] = 100, db: Session = Depends(get_db)):
     # read items from database

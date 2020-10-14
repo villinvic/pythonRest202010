@@ -11,7 +11,8 @@ from sqlalchemy.orm import sessionmaker
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://movie:password@localhost/dbmovie"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
+#    SQLALCHEMY_DATABASE_URL
+    SQLALCHEMY_DATABASE_URL, echo=True  # view SQL in logs
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
