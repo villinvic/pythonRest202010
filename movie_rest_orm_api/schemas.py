@@ -22,6 +22,21 @@ class Star(StarBase):
     class Config:
         orm_mode = True
 
+#nb de film, année 1er film, année dernier film avec seuil minimum de nb de films
+# from BaseModel because dont want birthdate in output
+class StarStat(BaseModel):
+    name:str
+    movie_count:int
+    first_movie_year:int
+    last_movie_year:int
+
+class StarRecord(BaseModel):
+    name:str
+    movie_count:int
+    worst:int
+    best:int
+
+
 # common Base Class for Movies (abstract class)
 class MovieBase(BaseModel):
     title: str
@@ -45,6 +60,14 @@ class MovieDetail(Movie):
     actors: List[Star] = []
     
     
+class MovieStat(MovieBase):
+    year:int
+    count:int
+    min_:int
+    max_:int
+    avg:int
+    
+
     
     
     
